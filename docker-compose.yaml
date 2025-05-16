@@ -1,0 +1,37 @@
+services:
+  ms-transaction:
+    build:
+      context: .
+      dockerfile: ./compose/local/Dockerfile
+    depends_on:
+      - postgres
+    container_name: transaction
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+    command: bash -c "npm run start:dev --host=0.0.0.0 --port=8080"
+    networks:
+      - nestjs_network
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    env_file:
+      - .env
+    ports:
+      - 54032:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nestjs_network
+volumes:
+  postgres_data: {}
+
+networks:
+  nestjs_network:
+    driver: bridge

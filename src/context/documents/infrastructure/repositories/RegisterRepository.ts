@@ -1,0 +1,50 @@
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import IDocumentRepository from '../contracts/IDocumentRepository';
+import { DocumentRegister } from '../../domain/class/DocumentRegister';
+import { RegisterEntity } from '../entities/register/Register.entity';
+
+@Injectable()
+export class RegisterRepository
+  implements IDocumentRepository<DocumentRegister>
+{
+  constructor(
+    @InjectRepository(RegisterEntity)
+    private readonly registerRepository: Repository<RegisterEntity>,
+  ) {}
+
+  async findById(RegisterId: number): Promise<DocumentRegister> {
+    const RegisterEntity = await this.registerRepository.findOne({
+      where: { id: RegisterId },
+    });
+
+    if (!RegisterEntity) {
+      //throw new GenericNotFoundError(`Plan not found with id: ${planId}`);
+      throw new Error();
+    }
+
+    return RegisterEntity.toDomain();
+  }
+
+  async findAll(): Promise<DocumentRegister[]> {
+    const RegisterEntity = await this.registerRepository.find();
+
+    const RegisterList: DocumentRegister[] = [];
+    RegisterEntity.forEach((value) => {
+      RegisterList.push(value.toDomain());
+    });
+    return RegisterList;
+  }
+
+  async create(plan: DocumentRegister): Promise<DocumentRegister> {
+    const registerEntity = RegisterEntity.fromDomain(plan);
+    const RegisterCreated = await this.registerRepository.save(registerEntity, {
+      reload: true,
+    });
+    if (!RegisterCreated) {
+      throw new Error();
+    }
+    return registerEntity.toDomain();
+  }
+}
