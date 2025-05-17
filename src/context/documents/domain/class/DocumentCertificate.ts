@@ -13,8 +13,4 @@ export class DocumentCertificate extends Document {
   ) {
     super(id, number, description, date, amount, createdAt, updatedAt);
   }
-
-  isValidAmount() {
-    //validar monto total de los registros presupuestales
-  }
 }
