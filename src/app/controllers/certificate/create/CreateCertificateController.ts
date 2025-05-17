@@ -1,4 +1,4 @@
-import { CreateCertificateDto } from '@context/documents/dto/certificate.dto';
+import { CreateCertificateDto } from '@context/documents/infrastructure/dto/certificate.dto';
 import { Body, Controller, Post } from '@nestjs/common';
 import CertificateService from 'src/context/documents/infrastructure/services/CertificateService';
 

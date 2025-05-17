@@ -6,7 +6,7 @@ import {
 import CreateRegister from '../../application/use-cases/register/create/CreateRegister';
 import GetRegister from '../../application/use-cases/register/search/find/GetRegister';
 import GetAllRegister from '../../application/use-cases/register/search/findAll/GetAllRegister';
-import { CreateRegisterDto } from '@context/documents/dto/register.dto';
+import { CreateRegisterDto } from '@context/documents/infrastructure/dto/register.dto';
 import { DocumentRegister } from '@context/documents/domain/class/DocumentRegister';
 import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';

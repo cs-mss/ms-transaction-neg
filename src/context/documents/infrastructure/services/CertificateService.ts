@@ -6,7 +6,7 @@ import {
 import CreateCertificate from '../../application/use-cases/certificate/create/CreateCertificate';
 import GetCertificate from '../../application/use-cases/certificate/search/find/GetCertificate';
 import GetAllCertificate from '../../application/use-cases/certificate/search/findAll/GetAllCertificate';
-import { CreateCertificateDto } from '@context/documents/dto/certificate.dto';
+import { CreateCertificateDto } from '@context/documents/infrastructure/dto/certificate.dto';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
 import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';
 

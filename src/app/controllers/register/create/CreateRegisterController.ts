@@ -1,4 +1,4 @@
-import { CreateRegisterDto } from '@context/documents/dto/register.dto';
+import { CreateRegisterDto } from '@context/documents/infrastructure/dto/register.dto';
 import { Body, Controller, Post } from '@nestjs/common';
 import RegisterService from 'src/context/documents/infrastructure/services/RegisterService';
 
