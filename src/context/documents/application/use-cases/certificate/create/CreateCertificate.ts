@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { DocumentCertificate } from 'src/context/documents/domain/class/DocumentCertificate';
-import IDocumentRepository from 'src/context/documents/infrastructure/contracts/IDocumentRepository';
+import { Injectable, Inject } from '@nestjs/common';
+import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
+import IDocumentRepository from '@context/documents/infrastructure/contracts/IDocumentRepository';
 
 @Injectable()
 export default class CreateCertificate {

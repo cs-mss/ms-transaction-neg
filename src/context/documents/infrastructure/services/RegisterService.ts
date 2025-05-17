@@ -3,9 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import CreateRegister from '../../aplication/use-cases/register/create/CreateRegister';
-import GetRegister from '../../aplication/use-cases/register/search/find/GetRegister';
-import GetAllRegister from '../../aplication/use-cases/register/search/findAll/GetAllRegister';
+import CreateRegister from '../../application/use-cases/register/create/CreateRegister';
+import GetRegister from '../../application/use-cases/register/search/find/GetRegister';
+import GetAllRegister from '../../application/use-cases/register/search/findAll/GetAllRegister';
 import { CreateRegisterDto } from '@context/documents/dto/register.dto';
 import { DocumentRegister } from '@context/documents/domain/class/DocumentRegister';
 import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';

@@ -3,9 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import CreateCertificate from '../../aplication/use-cases/certificate/create/CreateCertificate';
-import GetCertificate from '../../aplication/use-cases/certificate/search/find/GetCertificate';
-import GetAllCertificate from '../../aplication/use-cases/certificate/search/findAll/GetAllCertificate';
+import CreateCertificate from '../../application/use-cases/certificate/create/CreateCertificate';
+import GetCertificate from '../../application/use-cases/certificate/search/find/GetCertificate';
+import GetAllCertificate from '../../application/use-cases/certificate/search/findAll/GetAllCertificate';
 import { CreateCertificateDto } from '@context/documents/dto/certificate.dto';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
 import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';
