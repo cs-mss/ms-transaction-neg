@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TestDatabaseModule } from '../../config/test-database.module';
 import { PostgresContainer } from '../../config/postgres-container';
-import { CreateCertificateDto } from '../../../../src/context/documents/infrastructure/dto/certificate.dto';
-import { CertificatesModule } from '../../../../src/context/documents/infrastructure/module/certificate/certificate.module';
-import { USE_CASE_TOKENS } from '../../../../src/context/documents/application/ports/in/use-case.tokens';
-import ICreateCertificateUseCase from '../../../../src/context/documents/application/ports/in/certificate/ICreateCertificateUseCase';
+import { CreateCertificateDto } from '@context/documents/infrastructure/dto/certificate.dto';
+import { CertificatesModule } from '@context/documents/infrastructure/module/certificate/certificate.module';
+import { USE_CASE_TOKENS } from '@context/documents/application/ports/in/use-case.tokens';
+import ICreateCertificateUseCase from '@context/documents/application/ports/in/certificate/ICreateCertificateUseCase';
 
 describe('Certificate Integration Tests', () => {
   let app: TestingModule;
@@ -60,4 +60,4 @@ describe('Certificate Integration Tests', () => {
 });
 
 // Importar la clase DocumentCertificate al final para evitar problemas de referencia circular
-import { DocumentCertificate } from '../../../../src/context/documents/domain/class/DocumentCertificate';
+import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';

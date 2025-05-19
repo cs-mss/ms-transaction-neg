@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TestDatabaseModule } from '../../config/test-database.module';
 import { PostgresContainer } from '../../config/postgres-container';
-import { RegistersModule } from '../../../../src/context/documents/infrastructure/module/register/register.module';
-import { USE_CASE_TOKENS } from '../../../../src/context/documents/application/ports/in/use-case.tokens';
-import ICreateRegisterUseCase from '../../../../src/context/documents/application/ports/in/register/ICreateRegisterUseCase';
-import IGetAllRegisterUseCase from '../../../../src/context/documents/application/ports/in/register/IGetAllRegisterUseCase';
-import { CertificatesModule } from '../../../../src/context/documents/infrastructure/module/certificate/certificate.module';
-import ICreateCertificateUseCase from '../../../../src/context/documents/application/ports/in/certificate/ICreateCertificateUseCase';
+import { RegistersModule } from '@context/documents/infrastructure/module/register/register.module';
+import { USE_CASE_TOKENS } from '@context/documents/application/ports/in/use-case.tokens';
+import ICreateRegisterUseCase from '@context/documents/application/ports/in/register/ICreateRegisterUseCase';
+import IGetAllRegisterUseCase from '@context/documents/application/ports/in/register/IGetAllRegisterUseCase';
+import { CertificatesModule } from '@context/documents/infrastructure/module/certificate/certificate.module';
+import ICreateCertificateUseCase from '@context/documents/application/ports/in/certificate/ICreateCertificateUseCase';
 
 describe('Register Integration Tests', () => {
   let app: TestingModule;
@@ -52,7 +52,6 @@ describe('Register Integration Tests', () => {
   });
 
   it('should create a register and then find it', async () => {
-    // Arrange
     const certificate = new DocumentCertificate(
       certificateId,
       'CERT-002',
@@ -102,5 +101,5 @@ describe('Register Integration Tests', () => {
 });
 
 // Importar las clases de dominio al final para evitar problemas de referencia circular
-import { DocumentCertificate } from '../../../../src/context/documents/domain/class/DocumentCertificate';
-import { DocumentRegister } from '../../../../src/context/documents/domain/class/DocumentRegister';
+import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
+import { DocumentRegister } from '@context/documents/domain/class/DocumentRegister';
