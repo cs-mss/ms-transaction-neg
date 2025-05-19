@@ -2,6 +2,9 @@ import { DocumentCertificateDto } from '@context/documents/infrastructure/dto/ce
 import { Given, When, Then } from '@cucumber/cucumber';
 import chai from 'chai';
 const { expect } = chai;
+import { DataSource } from 'typeorm';
+import { CertificateEntity } from '@context/documents/infrastructure/entities/certificate/Certificate.entity';
+import { INestApplication } from '@nestjs/common';
 
 interface CustomWorld {
   certificateData?: DocumentCertificateDto;
@@ -9,6 +12,7 @@ interface CustomWorld {
     status: number;
     body: any;
   };
+  app?: INestApplication;
   sendPostRequest?: (endpoint: string, body: any) => Promise<void>;
   sendGetRequest?: (endpoint: string) => Promise<void>;
 }
@@ -35,16 +39,31 @@ Given(
 
 Given(
   'there is a certificate with id {int}',
-  async function (this: CustomWorld, _id: number) {
-    // Implementación futura si se requiere
+  async function (this: CustomWorld, id: number) {
+    if (!this.app) {
+      throw new Error(
+        'NestJS Application context (this.app) is not available in CustomWorld', // Added comma
+      );
+    }
+    const dataSource = this.app.get(DataSource);
+    const certificateRepository = dataSource.getRepository(CertificateEntity);
+
+    const certificate = new CertificateEntity();
+    certificate.id = id;
+    certificate.number = `CERT-${id}`;
+    certificate.description = `Test Certificate ${id}`;
+    certificate.date = new Date();
+    certificate.amount = 1000 + id;
+    certificate.dependency = `Dependency ${id}`;
+    certificate.createdAt = new Date().toISOString();
+    certificate.updatedAt = new Date().toISOString();
+    await certificateRepository.save(certificate);
   },
 );
 
 Given(
   'there are certificates in the system',
-  async function (this: CustomWorld) {
-    // Implementación futura si se requiere
-  },
+  async function (this: CustomWorld) {},
 );
 
 When(
@@ -77,7 +96,7 @@ Then(
 Then(
   'the response should contain a certificate with the same data',
   function (this: CustomWorld) {
-    const responseBody = this.response?.body;
+    const responseBody = this.response?.body as Record<string, unknown>;
     const certificate = this.certificateData;
 
     expect(responseBody).to.have.property('number', certificate?.number);
@@ -110,11 +129,11 @@ Then(
 Then(
   'the response should contain a list of certificates',
   function (this: CustomWorld) {
-    const body = this.response?.body;
+    const body = this.response?.body as Array<Record<string, unknown>>;
     expect(body).to.be.an('array');
 
     if (Array.isArray(body) && body.length > 0) {
-      const firstItem = body[0] as Record<string, unknown>;
+      const firstItem = body[0];
       expect(firstItem).to.have.property('id');
       expect(firstItem).to.have.property('number');
       expect(firstItem).to.have.property('description');

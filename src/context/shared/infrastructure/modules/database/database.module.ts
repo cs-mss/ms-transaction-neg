@@ -22,7 +22,7 @@ import { join } from 'path';
         autoLoadEntities: true,
         migrations: [join(__dirname, '..', 'database', 'migrations', '**')],
         synchronize: true,
-        logging: true,
+        logging: false,
       }),
     }),
   ],
