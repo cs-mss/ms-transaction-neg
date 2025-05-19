@@ -16,7 +16,7 @@
     "test": "jest",
     "test:unit": "jest --testPathIgnorePatterns=integration --passWithNoTests --forceExit",
     "test:unit-connections": "jest --testPathIgnorePatterns=integration --passWithNoTests --detectOpenHandles --forceExit",
-    "test:features": "node --loader ts-node/esm ./node_modules/.bin/cucumber-js -p default",
+    "test:features": "NODE_ENV=test ts-node -r ./register-paths.ts ./node_modules/.bin/cucumber-js -p default --require 'src/**/*.ts'",
     "test:watch": "jest --watch",
     "test:coverage": "jest --testPathIgnorePatterns=integration --collect-coverage --collectCoverageFrom=src/context/** --passWithNoTests",
     "test:cov": "jest --coverage",

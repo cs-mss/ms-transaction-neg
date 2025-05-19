@@ -1,7 +1,5 @@
-import { setWorldConstructor, IWorldOptions } from '@cucumber/cucumber';
-import { Test } from '@nestjs/testing';
+import { setWorldConstructor, IWorldOptions, World } from '@cucumber/cucumber';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from '../../../../src/context/shared/infrastructure/modules/app.module';
 import request from 'supertest';
 
 export class CertificateData {
@@ -52,35 +50,21 @@ export class ApiResponse {
     | Record<string, unknown>;
 }
 
-export class CustomWorld {
+export class CustomWorld extends World {
   app: INestApplication;
   response: ApiResponse;
   certificateData: CertificateData;
   registerData: RegisterData;
-  attach: any;
-  log: any;
-  parameters: any;
-  link: any;
 
   constructor(options: IWorldOptions) {
-    Object.assign(this, options);
-  }
-
-  async setupApp(): Promise<void> {
-    const moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    this.app = moduleFixture.createNestApplication();
-    await this.app.init();
+    super(options);
   }
 
   async sendGetRequest(endpoint: string): Promise<void> {
     if (!this.app) {
-      await this.setupApp();
+      throw new Error('App is not initialized');
     }
-    const httpServer = this.app.getHttpServer();
-    const response = await request(httpServer)
+    const response = await request(this.app.getHttpServer())
       .get(endpoint)
       .set('Accept', 'application/json');
 
@@ -95,10 +79,9 @@ export class CustomWorld {
     data: CertificateData | RegisterData,
   ): Promise<void> {
     if (!this.app) {
-      await this.setupApp();
+      throw new Error('App is not initialized');
     }
-    const httpServer = this.app.getHttpServer();
-    const response = await request(httpServer)
+    const response = await request(this.app.getHttpServer())
       .post(endpoint)
       .send(data)
       .set('Accept', 'application/json');
@@ -109,5 +92,4 @@ export class CustomWorld {
     };
   }
 }
-
 setWorldConstructor(CustomWorld);

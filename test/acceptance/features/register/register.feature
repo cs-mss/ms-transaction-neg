@@ -14,12 +14,12 @@ Feature: Register Management
 
   Scenario: Get a register by ID
     Given there is a register with id 20
-    When I send a GET request to "/register/20"
+    When I send a GET request to register endpoint "/register/20"
     Then the response status code should be 200
     And the response should contain a register with id 20
 
   Scenario: Get all registers
     Given there are registers in the system
-    When I send a GET request to "/register"
+    When I send a GET request to register endpoint "/register"
     Then the response status code should be 200
     And the response should contain a list of registers

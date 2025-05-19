@@ -20,8 +20,7 @@ export class CertificateRepository
     });
 
     if (!certificateEntity) {
-      //throw new GenericNotFoundError(`Plan not found with id: ${planId}`);
-      throw new Error();
+      throw new Error(`Certificate with id ${certificateId} not found`);
     }
 
     return certificateEntity.toDomain();
