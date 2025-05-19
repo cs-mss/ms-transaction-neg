@@ -21,7 +21,7 @@ import { join } from 'path';
         database: configService.get<string>('database.name'),
         autoLoadEntities: true,
         migrations: [join(__dirname, '..', 'database', 'migrations', '**')],
-        synchronize: false,
+        synchronize: true,
         logging: true,
       }),
     }),
