@@ -1,6 +1,6 @@
 import GetCertificate from '@context/documents/application/use-cases/certificate/search/find/GetCertificate';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
-import IDocumentRepository from '@context/documents/infrastructure/contracts/IDocumentRepository';
+import IDocumentRepository from '@context/documents/domain/repositories/IDocumentRepository';
 
 describe('GetCertificate Use Case', () => {
   let useCase: GetCertificate;
