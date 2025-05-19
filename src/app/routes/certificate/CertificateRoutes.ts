@@ -6,6 +6,5 @@ import { CertificatesModule } from 'src/context/documents/infrastructure/module/
 @Module({
   imports: [CertificatesModule],
   controllers: [CreateCertificateController, FindCertificateController],
-  providers: [],
 })
 export class CertificateRoutesModule {}

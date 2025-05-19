@@ -6,6 +6,5 @@ import { RegistersModule } from 'src/context/documents/infrastructure/module/reg
 @Module({
   imports: [RegistersModule],
   controllers: [CreateRegisterController, FindRegisterController],
-  providers: [],
 })
 export class RegisterRoutesModule {}
