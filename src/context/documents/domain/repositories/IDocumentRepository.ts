@@ -1,5 +1,5 @@
-import { DocumentCertificate } from '../../domain/class/DocumentCertificate';
-import { DocumentRegister } from '../../domain/class/DocumentRegister';
+import { DocumentCertificate } from '../class/DocumentCertificate';
+import { DocumentRegister } from '../class/DocumentRegister';
 
 type DoucmentsAviable = DocumentCertificate | DocumentRegister;
 

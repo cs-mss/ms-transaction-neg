@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DocumentRegister } from 'src/context/documents/domain/class/DocumentRegister';
-import IDocumentRepository from 'src/context/documents/infrastructure/contracts/IDocumentRepository';
+import IDocumentRepository from '@context/documents/domain/repositories/IDocumentRepository';
 import IGetAllRegisterUseCase from '@context/documents/application/ports/in/register/IGetAllRegisterUseCase';
 
 @Injectable()

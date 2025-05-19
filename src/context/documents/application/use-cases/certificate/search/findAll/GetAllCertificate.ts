@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DocumentCertificate } from 'src/context/documents/domain/class/DocumentCertificate';
-import IDocumentRepository from 'src/context/documents/infrastructure/contracts/IDocumentRepository';
+import IDocumentRepository from '@context/documents/domain/repositories/IDocumentRepository';
 import IGetAllCertificateUseCase from '@context/documents/application/ports/in/certificate/IGetAllCertificateUseCase';
 
 @Injectable()

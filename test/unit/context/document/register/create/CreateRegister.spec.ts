@@ -1,10 +1,10 @@
-import GetRegister from '@context/documents/application/use-cases/register/search/find/GetRegister';
+import CreateRegister from '@context/documents/application/use-cases/register/create/CreateRegister';
 import { DocumentRegister } from '@context/documents/domain/class/DocumentRegister';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
-import IDocumentRepository from '@context/documents/infrastructure/contracts/IDocumentRepository';
+import IDocumentRepository from '@context/documents/domain/repositories/IDocumentRepository';
 
-describe('GetRegister Use Case', () => {
-  let useCase: GetRegister;
+describe('CreateRegister Use Case', () => {
+  let useCase: CreateRegister;
   let mockRepository: jest.Mocked<IDocumentRepository<DocumentRegister>>;
 
   beforeEach(() => {
@@ -14,10 +14,10 @@ describe('GetRegister Use Case', () => {
       findAll: jest.fn(),
     };
 
-    useCase = new GetRegister(mockRepository);
+    useCase = new CreateRegister(mockRepository);
   });
 
-  it('should find and return a DocumentRegister by id', async () => {
+  it('should create and return a DocumentRegister', async () => {
     const fakeCertificate = new DocumentCertificate(
       10,
       '2025.CERT.00010',
@@ -42,13 +42,13 @@ describe('GetRegister Use Case', () => {
       fakeCertificate,
     );
 
-    mockRepository.findById.mockResolvedValue(fakeRegister);
+    mockRepository.create.mockResolvedValue(fakeRegister);
 
-    const result = await useCase.run(20);
+    const result = await useCase.run(fakeRegister);
 
-    const { calls } = mockRepository.findById.mock;
+    const { calls } = mockRepository.create.mock;
     expect(calls.length).toBe(1);
-    expect(calls[0][0]).toBe(20);
+    expect(calls[0][0]).toBe(fakeRegister);
     expect(result).toBe(fakeRegister);
   });
 });

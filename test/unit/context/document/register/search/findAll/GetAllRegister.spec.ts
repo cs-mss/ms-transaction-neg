@@ -1,7 +1,7 @@
 import GetAllRegister from '@context/documents/application/use-cases/register/search/findAll/GetAllRegister';
 import { DocumentRegister } from '@context/documents/domain/class/DocumentRegister';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
-import IDocumentRepository from '@context/documents/infrastructure/contracts/IDocumentRepository';
+import IDocumentRepository from '@context/documents/domain/repositories/IDocumentRepository';
 
 describe('GetAllRegister Use Case', () => {
   let useCase: GetAllRegister;
