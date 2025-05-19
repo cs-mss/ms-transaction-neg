@@ -21,8 +21,7 @@ export class RegisterRepository
     });
 
     if (!RegisterEntity) {
-      //throw new GenericNotFoundError(`Plan not found with id: ${planId}`);
-      throw new Error();
+      throw new Error(`Register not found with id: ${RegisterId}`);
     }
 
     return RegisterEntity.toDomain();

@@ -1,7 +1,5 @@
 import { setWorldConstructor, IWorldOptions, World } from '@cucumber/cucumber';
-import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from '@context/shared/infrastructure/modules/app.module';
 import request from 'supertest';
 
 export class CertificateData {
@@ -62,18 +60,9 @@ export class CustomWorld extends World {
     super(options);
   }
 
-  async setupApp(): Promise<void> {
-    const moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    this.app = moduleFixture.createNestApplication();
-    await this.app.init();
-  }
-
   async sendGetRequest(endpoint: string): Promise<void> {
     if (!this.app) {
-      await this.setupApp();
+      throw new Error('App is not initialized');
     }
     const response = await request(this.app.getHttpServer())
       .get(endpoint)
@@ -90,7 +79,7 @@ export class CustomWorld extends World {
     data: CertificateData | RegisterData,
   ): Promise<void> {
     if (!this.app) {
-      await this.setupApp();
+      throw new Error('App is not initialized');
     }
     const response = await request(this.app.getHttpServer())
       .post(endpoint)
@@ -103,5 +92,4 @@ export class CustomWorld extends World {
     };
   }
 }
-
 setWorldConstructor(CustomWorld);

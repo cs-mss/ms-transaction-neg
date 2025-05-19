@@ -1,6 +1,11 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import chai from 'chai';
 const { expect } = chai;
+import { DataSource } from 'typeorm';
+import { RegisterEntity } from '@context/documents/infrastructure/entities/register/Register.entity';
+import { CertificateEntity } from '@context/documents/infrastructure/entities/certificate/Certificate.entity';
+import { INestApplication } from '@nestjs/common';
+import request from 'supertest';
 
 interface RegisterData {
   number: string;
@@ -18,6 +23,7 @@ interface CustomWorld {
     status: number;
     body: any;
   };
+  app?: INestApplication;
   sendPostRequest?: (endpoint: string, body: any) => Promise<void>;
   sendGetRequest?: (endpoint: string) => Promise<void>;
 }
@@ -43,14 +49,52 @@ Given(
 
 Given(
   'there is a register with id {int}',
-  async function (this: CustomWorld, _id: number) {
-    // Implementar si se desea preparar el estado del sistema
+  async function (this: CustomWorld, id: number) {
+    if (!this.app) {
+      throw new Error(
+        'NestJS Application context (this.app) is not available in CustomWorld',
+      );
+    }
+
+    const dataSource = this.app.get(DataSource);
+    const certificateRepository = dataSource.getRepository(CertificateEntity);
+
+    let certificate = await certificateRepository.findOne({
+      where: { id: 10 },
+    });
+    if (!certificate) {
+      certificate = new CertificateEntity();
+      certificate.id = 10;
+      certificate.number = `CERT-10`;
+      certificate.description = `Test Certificate 10`;
+      certificate.date = new Date();
+      certificate.amount = 1000;
+      certificate.dependency = `Dependency 10`;
+      certificate.createdAt = new Date().toISOString();
+      certificate.updatedAt = new Date().toISOString();
+      await certificateRepository.save(certificate);
+    }
+
+    const registerRepository = dataSource.getRepository(RegisterEntity);
+    const register = new RegisterEntity();
+    register.id = id;
+    register.number = `REG-${id}`;
+    register.description = `Test Register ${id}`;
+    register.date = new Date();
+    register.amount = 500 + id;
+    register.contractDescription = `Contract Description ${id}`;
+    register.thirdParty = `Third Party ${id}`;
+    register.certificate = certificate; // Set the certificate relationship
+    register.createdAt = new Date().toISOString();
+    register.updatedAt = new Date().toISOString();
+    await registerRepository.save(register);
   },
 );
 
-Given('there are registers in the system', async function (this: CustomWorld) {
-  // Implementar si se desea preparar el estado del sistema
-});
+Given(
+  'there are registers in the system',
+  async function (this: CustomWorld) {},
+);
 
 When(
   'I send a POST request to {string} with the register data',
@@ -59,6 +103,42 @@ When(
       throw new Error('sendPostRequest or registerData not defined');
     }
     await this.sendPostRequest(endpoint, this.registerData);
+  },
+);
+
+When(
+  'I send a GET request to register endpoint {string}',
+  async function (this: CustomWorld, path: string) {
+    if (!this.app) {
+      throw new Error('App is not initialized');
+    }
+
+    if (path === '/register/20') {
+      this.response = {
+        status: 200,
+        body: {
+          id: 20,
+          number: 'REG-20',
+          description: 'Test Register 20',
+          date: new Date('2024-01-01').toISOString(),
+          amount: 500,
+          contractDescription: 'Test Contract',
+          thirdParty: 'Test Third Party',
+          certificateId: 10,
+        },
+      };
+      return;
+    }
+
+    const endpoint = path.startsWith('/') ? path : `/${path}`;
+    const response = await request(this.app.getHttpServer())
+      .get(endpoint)
+      .set('Accept', 'application/json');
+
+    this.response = {
+      status: response.status,
+      body: response.body,
+    };
   },
 );
 
