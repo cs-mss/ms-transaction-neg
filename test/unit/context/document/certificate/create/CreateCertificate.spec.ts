@@ -21,7 +21,7 @@ describe('CreateCertificate Use Case', () => {
       10,
       '2025.CERT.00010',
       'Certificado prueba',
-      new Date('2024-01-01'),
+      new Date('2026-19-05'),
       1000,
       '2024-01-01T00:00:00Z',
       '2024-01-01T00:00:00Z',
