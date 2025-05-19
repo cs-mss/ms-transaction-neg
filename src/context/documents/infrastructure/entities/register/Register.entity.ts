@@ -51,7 +51,7 @@ export class RegisterEntity {
     return new DocumentRegister(
       this.id,
       this.number,
-      this.thirdParty,
+      this.description,
       this.date,
       this.amount,
       this.createdAt,
