@@ -17,6 +17,7 @@ export class RegisterRepository
   async findById(RegisterId: number): Promise<DocumentRegister> {
     const RegisterEntity = await this.registerRepository.findOne({
       where: { id: RegisterId },
+      relations: ['certificate'],
     });
 
     if (!RegisterEntity) {
@@ -28,7 +29,9 @@ export class RegisterRepository
   }
 
   async findAll(): Promise<DocumentRegister[]> {
-    const RegisterEntity = await this.registerRepository.find();
+    const RegisterEntity = await this.registerRepository.find({
+      relations: ['certificate'],
+    });
 
     const RegisterList: DocumentRegister[] = [];
     RegisterEntity.forEach((value) => {
