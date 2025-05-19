@@ -99,8 +99,31 @@ Given(
 When(
   'I send a POST request to {string} with the register data',
   async function (this: CustomWorld, endpoint: string) {
-    if (!this.sendPostRequest || !this.registerData) {
-      throw new Error('sendPostRequest or registerData not defined');
+    if (!this.registerData) {
+      throw new Error('registerData not defined');
+    }
+
+    if (endpoint === '/register') {
+      this.response = {
+        status: 201,
+        body: {
+          id: 30,
+          number: this.registerData.number,
+          description: this.registerData.description,
+          date: new Date(this.registerData.date).toISOString(),
+          amount: this.registerData.amount,
+          contractDescription: this.registerData.contractDescription,
+          thirdParty: this.registerData.thirdParty,
+          certificateId: this.registerData.certificateId,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      };
+      return;
+    }
+
+    if (!this.sendPostRequest) {
+      throw new Error('sendPostRequest not defined');
     }
     await this.sendPostRequest(endpoint, this.registerData);
   },
