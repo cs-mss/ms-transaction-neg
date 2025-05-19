@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DocumentRegister } from 'src/context/documents/domain/class/DocumentRegister';
 import IDocumentRepository from 'src/context/documents/infrastructure/contracts/IDocumentRepository';
+import ICreateRegisterUseCase from '@context/documents/application/ports/in/register/ICreateRegisterUseCase';
 
 @Injectable()
-export default class CreateRegister {
+export default class CreateRegister implements ICreateRegisterUseCase {
   private readonly repository: IDocumentRepository<DocumentRegister>;
 
   constructor(

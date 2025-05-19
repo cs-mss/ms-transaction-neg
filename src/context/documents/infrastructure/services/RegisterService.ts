@@ -1,11 +1,13 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import CreateRegister from '../../application/use-cases/register/create/CreateRegister';
-import GetRegister from '../../application/use-cases/register/search/find/GetRegister';
-import GetAllRegister from '../../application/use-cases/register/search/findAll/GetAllRegister';
+import ICreateRegisterUseCase from '../../application/ports/in/register/ICreateRegisterUseCase';
+import IGetRegisterUseCase from '../../application/ports/in/register/IGetRegisterUseCase';
+import IGetAllRegisterUseCase from '../../application/ports/in/register/IGetAllRegisterUseCase';
+import { USE_CASE_TOKENS } from '../../application/ports/in/use-case.tokens';
 import { CreateRegisterDto } from '@context/documents/infrastructure/dto/register.dto';
 import { DocumentRegister } from '@context/documents/domain/class/DocumentRegister';
 import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';
@@ -15,9 +17,12 @@ import CertificateService from './CertificateService';
 @Injectable()
 export default class RegisterService {
   constructor(
-    private readonly createRegister: CreateRegister,
-    private readonly getRegister: GetRegister,
-    private readonly getAllRegister: GetAllRegister,
+    @Inject(USE_CASE_TOKENS.CREATE_REGISTER_USE_CASE)
+    private readonly createRegister: ICreateRegisterUseCase,
+    @Inject(USE_CASE_TOKENS.GET_REGISTER_USE_CASE)
+    private readonly getRegister: IGetRegisterUseCase,
+    @Inject(USE_CASE_TOKENS.GET_ALL_REGISTER_USE_CASE)
+    private readonly getAllRegister: IGetAllRegisterUseCase,
     private readonly certificateService: CertificateService,
   ) {}
 

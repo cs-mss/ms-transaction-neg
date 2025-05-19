@@ -7,6 +7,7 @@ import CreateRegister from '@context/documents/application/use-cases/register/cr
 import GetRegister from '@context/documents/application/use-cases/register/search/find/GetRegister';
 import GetAllRegister from '@context/documents/application/use-cases/register/search/findAll/GetAllRegister';
 import { CertificatesModule } from '../certificate/certificate.module';
+import { USE_CASE_TOKENS } from '@context/documents/application/ports/in/use-case.tokens';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RegisterEntity]), CertificatesModule],
@@ -15,11 +16,29 @@ import { CertificatesModule } from '../certificate/certificate.module';
       provide: 'RegisterRepository',
       useClass: RegisterRepository,
     },
+    {
+      provide: USE_CASE_TOKENS.CREATE_REGISTER_USE_CASE,
+      useClass: CreateRegister,
+    },
+    {
+      provide: USE_CASE_TOKENS.GET_REGISTER_USE_CASE,
+      useClass: GetRegister,
+    },
+    {
+      provide: USE_CASE_TOKENS.GET_ALL_REGISTER_USE_CASE,
+      useClass: GetAllRegister,
+    },
     RegisterService,
     CreateRegister,
     GetRegister,
     GetAllRegister,
   ],
-  exports: [RegisterService, 'RegisterRepository'],
+  exports: [
+    RegisterService,
+    'RegisterRepository',
+    USE_CASE_TOKENS.CREATE_REGISTER_USE_CASE,
+    USE_CASE_TOKENS.GET_REGISTER_USE_CASE,
+    USE_CASE_TOKENS.GET_ALL_REGISTER_USE_CASE,
+  ],
 })
 export class RegistersModule {}

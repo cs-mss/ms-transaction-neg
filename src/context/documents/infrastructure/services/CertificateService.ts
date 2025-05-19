@@ -1,11 +1,13 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import CreateCertificate from '../../application/use-cases/certificate/create/CreateCertificate';
-import GetCertificate from '../../application/use-cases/certificate/search/find/GetCertificate';
-import GetAllCertificate from '../../application/use-cases/certificate/search/findAll/GetAllCertificate';
+import ICreateCertificateUseCase from '../../application/ports/in/certificate/ICreateCertificateUseCase';
+import IGetCertificateUseCase from '../../application/ports/in/certificate/IGetCertificateUseCase';
+import IGetAllCertificateUseCase from '../../application/ports/in/certificate/IGetAllCertificateUseCase';
+import { USE_CASE_TOKENS } from '../../application/ports/in/use-case.tokens';
 import { CreateCertificateDto } from '@context/documents/infrastructure/dto/certificate.dto';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
 import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';
@@ -13,9 +15,12 @@ import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';
 @Injectable()
 export default class CertificateService {
   constructor(
-    private readonly createCertificate: CreateCertificate,
-    private readonly getCertificate: GetCertificate,
-    private readonly getAllCertificate: GetAllCertificate,
+    @Inject(USE_CASE_TOKENS.CREATE_CERTIFICATE_USE_CASE)
+    private readonly createCertificate: ICreateCertificateUseCase,
+    @Inject(USE_CASE_TOKENS.GET_CERTIFICATE_USE_CASE)
+    private readonly getCertificate: IGetCertificateUseCase,
+    @Inject(USE_CASE_TOKENS.GET_ALL_CERTIFICATE_USE_CASE)
+    private readonly getAllCertificate: IGetAllCertificateUseCase,
   ) {}
 
   async findById(certificateId: number) {

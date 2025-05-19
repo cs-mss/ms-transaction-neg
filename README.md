@@ -11,13 +11,15 @@
 
 ## Overview
 
-Microservicio de gestión de documentos y transacciones desarrollado con NestJS. Este servicio maneja la creación, validación y gestión de documentos, certificados y registros de transacciones.
+Microservicio de gestión de documentos y transacciones desarrollado con NestJS. Este servicio maneja la creación, validación y gestión de documentos, certificados y registros de transacciones, implementando una arquitectura hexagonal (también conocida como arquitectura de puertos y adaptadores) para asegurar una separación clara de responsabilidades y facilitar el mantenimiento y las pruebas.
 
 ## Características Principales
 
 - Gestión de documentos y certificados
 - Registro de transacciones con validaciones
-- Arquitectura hexagonal
+- Implementación completa de arquitectura hexagonal con puertos y adaptadores
+- Separación clara entre dominio, aplicación e infraestructura
+- Inyección de dependencias a través de interfaces
 - Validación de datos robusta
 - Integración con Docker
 
@@ -26,14 +28,49 @@ Microservicio de gestión de documentos y transacciones desarrollado con NestJS.
 ```
 src/
 ├── context/
-│   ├── documents/      # Lógica de negocio de documentos
-│   │   ├── domain/     # Entidades y lógica de negocio
-│   │   ├── dto/        # Transferencia de datos
-│   │   ├── application/# Casos de uso
-│   │   └── infrastructure/ # Implementaciones específicas
-│   └── shared/        # Código compartido
-└── app/              # Configuración de la aplicación
+│   ├── documents/                 # Contexto de documentos
+│   │   ├── domain/                # Capa de dominio
+│   │   │   └── class/             # Entidades de dominio
+│   │   ├── application/           # Capa de aplicación
+│   │   │   ├── ports/             # Puertos de entrada (interfaces)
+│   │   │   │   ├── in/            # Interfaces para casos de uso
+│   │   │   │   │   ├── certificate/  # Interfaces para certificados
+│   │   │   │   │   └── register/     # Interfaces para registros
+│   │   │   └── use-cases/         # Implementación de casos de uso
+│   │   │       ├── certificate/   # Casos de uso para certificados
+│   │   │       └── register/      # Casos de uso para registros
+│   │   └── infrastructure/        # Capa de infraestructura
+│   │       ├── contracts/         # Puertos de salida (interfaces)
+│   │       ├── entities/          # Entidades de persistencia
+│   │       ├── repositories/      # Implementaciones de repositorios (adaptadores)
+│   │       ├── services/          # Servicios de infraestructura
+│   │       └── module/            # Módulos de NestJS
+│   └── shared/                    # Código compartido
+└── app/                           # Configuración de la aplicación
+    ├── controllers/               # Controladores (adaptadores de entrada)
+    └── routes/                    # Definición de rutas
 ```
+
+## Arquitectura Hexagonal
+
+Este proyecto implementa la arquitectura hexagonal (también conocida como arquitectura de puertos y adaptadores) con las siguientes capas:
+
+### Capa de Dominio
+- Contiene las entidades de negocio (`Document`, `DocumentRegister`, `DocumentCertificate`)
+- Define las reglas y lógica de negocio
+- Es independiente de frameworks y tecnologías externas
+
+### Capa de Aplicación
+- Define los casos de uso de la aplicación
+- Implementa la lógica de aplicación utilizando las entidades del dominio
+- Define puertos de entrada (interfaces) para los casos de uso
+- Depende del dominio pero es independiente de la infraestructura
+
+### Capa de Infraestructura
+- Implementa los adaptadores para los puertos definidos en el dominio y la aplicación
+- Contiene la implementación específica de tecnologías (NestJS, TypeORM, etc.)
+- Incluye controladores, repositorios y servicios
+- Se comunica con el exterior (bases de datos, APIs, etc.)
 
 ## Requisitos
 
