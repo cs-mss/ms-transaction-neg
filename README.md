@@ -30,19 +30,17 @@ src/
 ├── context/
 │   ├── documents/                 # Contexto de documentos
 │   │   ├── domain/                # Capa de dominio
-│   │   │   └── class/             # Entidades de dominio
+│   │   │   ├── class/             # Entidades de dominio
+│   │   │   ├── errors/            # Errores de dominio
+│   │   │   └── services/          # Servicios de dominio
 │   │   ├── application/           # Capa de aplicación
 │   │   │   ├── ports/             # Puertos de entrada (interfaces)
-│   │   │   │   ├── in/            # Interfaces para casos de uso
-│   │   │   │   │   ├── certificate/  # Interfaces para certificados
-│   │   │   │   │   └── register/     # Interfaces para registros
+│   │   │   │   └── in/            # Interfaces para casos de uso
 │   │   │   └── use-cases/         # Implementación de casos de uso
-│   │   │       ├── certificate/   # Casos de uso para certificados
-│   │   │       └── register/      # Casos de uso para registros
 │   │   └── infrastructure/        # Capa de infraestructura
 │   │       ├── contracts/         # Puertos de salida (interfaces)
 │   │       ├── entities/          # Entidades de persistencia
-│   │       ├── repositories/      # Implementaciones de repositorios (adaptadores)
+│   │       ├── repositories/      # Implementaciones de repositorios
 │   │       ├── services/          # Servicios de infraestructura
 │   │       └── module/            # Módulos de NestJS
 │   └── shared/                    # Código compartido
