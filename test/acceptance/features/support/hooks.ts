@@ -65,6 +65,8 @@ async function seedTestData(app: INestApplication) {
     certificate.date = new Date('2024-01-01');
     certificate.amount = 1000;
     certificate.dependency = 'Test Dependency';
+    certificate.createdAt = new Date().toISOString();
+    certificate.updatedAt = new Date().toISOString();
 
     await certificateRepo.save(certificate);
 
@@ -72,11 +74,13 @@ async function seedTestData(app: INestApplication) {
     register.id = 20;
     register.number = 'REG-20';
     register.description = 'Test Register 20';
-    register.date = new Date('2024-01-01');
+    register.date = new Date('2024-01-05');
     register.amount = 500;
     register.contractDescription = 'Test Contract';
     register.thirdParty = 'Test Third Party';
     register.certificate = certificate;
+    register.createdAt = new Date().toISOString();
+    register.updatedAt = new Date().toISOString();
 
     await registerRepo.save(register);
 
