@@ -5,10 +5,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CertificateEntity } from '../certificate/Certificate.entity';
+import { OrderEntity } from '../order/Order.entity';
 
 @Entity('register')
 export class RegisterEntity {
@@ -46,6 +48,9 @@ export class RegisterEntity {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: string;
+
+  @OneToMany(() => OrderEntity, (order) => order.register)
+  orders: OrderEntity[];
 
   toDomain(): DocumentRegister {
     return new DocumentRegister(

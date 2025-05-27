@@ -10,11 +10,11 @@ services:
       - ./:/app
       - /app/node_modules
     ports:
-      - "${PORT}:8080"
+      - '${PORT}:8080'
     env_file:
       - .env
     networks:
-      - nestjs_network
+      - shared-network-ms
 
   postgres:
     image: postgres:16
@@ -27,15 +27,15 @@ services:
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
-      - "54032:5432"
+      - '54032:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - nestjs_network
+      - shared-network-ms
 
 volumes:
   postgres_data: {}
 
 networks:
-  nestjs_network:
-    driver: bridge
+  shared-network-ms:
+    external: true

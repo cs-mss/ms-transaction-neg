@@ -1,7 +1,8 @@
 import { DocumentCertificate } from '../class/DocumentCertificate';
 import { DocumentRegister } from '../class/DocumentRegister';
+import { DocumentOrder } from '../class/DocumentOrder';
 
-type DoucmentsAviable = DocumentCertificate | DocumentRegister;
+type DoucmentsAviable = DocumentCertificate | DocumentRegister | DocumentOrder;
 
 export default interface IDocumentRepository<T extends DoucmentsAviable> {
   findById(number: number): Promise<T>;
