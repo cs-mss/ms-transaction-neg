@@ -8,6 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './context/shared/infrastructure/modules/app.module';
 import { ResponseInterceptor } from './app/interceptors/response.interceptor';
 import { ConfigService } from '@nestjs/config';
+import { KafkaOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
@@ -28,6 +29,19 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new ResponseInterceptor());
 
+  const kafkaServiceOptions: KafkaOptions = {
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        clientId: 'ms-transaction-neg',
+        brokers: ['kafka1:9092', 'kafka2:9093', 'kafka3:9094'],
+      },
+      producerOnlyMode: true,
+    },
+  };
+
+  app.connectMicroservice(kafkaServiceOptions);
+
   app.use(bodyParser.json({ limit: '250mb' }));
   app.use(bodyParser.urlencoded({ limit: '250mb', extended: true }));
   app.enableCors();
@@ -35,5 +49,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   await app.listen(configService.get('PORT') ?? 3000);
+  console.log('PORT', configService.get('PORT') ?? 3000);
 }
 void bootstrap();

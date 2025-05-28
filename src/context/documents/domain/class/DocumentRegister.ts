@@ -1,6 +1,7 @@
 import { Document } from './Document';
 import { DocumentCertificate } from './DocumentCertificate';
 import { DocumentValidationError } from '../errors/DocumentValidationError';
+import { DocumentCreatedEvent } from '../events/DocumentCreated.event';
 
 export class DocumentRegister extends Document {
   constructor(
@@ -60,6 +61,10 @@ export class DocumentRegister extends Document {
         'El monto del registro no puede exceder el monto del certificado asociado',
       );
     }
+  }
+
+  recordCreatedEvent() {
+    this.addDomainEvent(new DocumentCreatedEvent('Register', this));
   }
 
   public validate(): void {

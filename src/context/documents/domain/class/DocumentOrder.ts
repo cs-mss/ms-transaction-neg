@@ -1,6 +1,8 @@
 import { Document } from './Document';
 import { DocumentValidationError } from '../errors/DocumentValidationError';
 import { DocumentRegister } from './DocumentRegister';
+import { DocumentCreatedEvent } from '../events/DocumentCreated.event';
+import { OrderCreatedEvent } from '../events/OrderCreated.event';
 
 export class DocumentOrder extends Document {
   constructor(
@@ -57,9 +59,15 @@ export class DocumentOrder extends Document {
   public validateAmountNotExceedregister(): void {
     if (this.amount > this.register.amount) {
       throw new DocumentValidationError(
-        'El monto del orden no puede exceder el monto del registrp asociado',
+        'El monto del orden no puede exceder el monto del registro asociado',
       );
     }
+  }
+
+  recordCreatedEvents() {
+    this.addDomainEvent(new DocumentCreatedEvent('order', this));
+
+    this.addDomainEvent(new OrderCreatedEvent(this));
   }
 
   public validate(): void {

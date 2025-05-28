@@ -2,10 +2,12 @@ import CreateRegister from '@context/documents/application/use-cases/register/cr
 import { DocumentRegister } from '@context/documents/domain/class/DocumentRegister';
 import { DocumentCertificate } from '@context/documents/domain/class/DocumentCertificate';
 import IDocumentRepository from '@context/documents/domain/repositories/IDocumentRepository';
+import { EventPublisher } from '@context/documents/domain/events/event-publisher.interface';
 
 describe('CreateRegister Use Case', () => {
   let useCase: CreateRegister;
   let mockRepository: jest.Mocked<IDocumentRepository<DocumentRegister>>;
+  let mockEventPublisher: jest.Mocked<EventPublisher>;
 
   beforeEach(() => {
     mockRepository = {
@@ -14,7 +16,11 @@ describe('CreateRegister Use Case', () => {
       findAll: jest.fn(),
     };
 
-    useCase = new CreateRegister(mockRepository);
+    mockEventPublisher = {
+      publish: jest.fn(),
+    };
+
+    useCase = new CreateRegister(mockRepository, mockEventPublisher);
   });
 
   it('should create and return a DocumentRegister', async () => {

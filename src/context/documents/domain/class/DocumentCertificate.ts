@@ -1,5 +1,6 @@
 import { Document } from './Document';
 import { DocumentValidationError } from '../errors/DocumentValidationError';
+import { DocumentCreatedEvent } from '../events/DocumentCreated.event';
 
 export class DocumentCertificate extends Document {
   constructor(
@@ -35,6 +36,21 @@ export class DocumentCertificate extends Document {
         'El monto del certificado debe ser mayor que cero',
       );
     }
+  }
+
+  recordCreatedEvent() {
+    this.addDomainEvent(
+      new DocumentCreatedEvent('certificate', {
+        number: this.number,
+        description: this.description,
+        date: this.date,
+        amount: this.amount,
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt,
+        dependency: this.dependency,
+      }),
+    );
+    console.log('agregando evento -> Creando Certificado');
   }
 
   public validate(): void {

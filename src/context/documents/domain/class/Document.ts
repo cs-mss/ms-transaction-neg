@@ -1,4 +1,6 @@
-export class Document {
+import { AggregateRoot } from '../aggregate-root';
+
+export class Document extends AggregateRoot {
   constructor(
     readonly id: number,
     readonly number: string,
@@ -7,5 +9,7 @@ export class Document {
     readonly amount: number,
     readonly createdAt: string,
     readonly updatedAt: string,
-  ) {}
+  ) {
+    super();
+  }
 }

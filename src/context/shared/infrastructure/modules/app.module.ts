@@ -8,6 +8,8 @@ import { OrdersModule } from 'src/context/documents/infrastructure/module/order/
 import { RegistersModule } from 'src/context/documents/infrastructure/module/register/register.module';
 import { DatabaseModule } from './database/database.module';
 import databaseConfig from '../config/environment/database.config';
+import { KafkaTopicsService } from '../service/kafka-topics.service';
+import { KafkaModule } from '@context/documents/infrastructure/kafka/kafka.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import databaseConfig from '../config/environment/database.config';
     RegisterRoutesModule,
     OrdersModule,
     OrderRoutesModule,
+    KafkaModule,
   ],
+  providers: [KafkaTopicsService],
 })
 export class AppModule {}

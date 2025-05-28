@@ -7,9 +7,10 @@ import CreateCertificate from '@context/documents/application/use-cases/certific
 import GetCertificate from '@context/documents/application/use-cases/certificate/search/find/GetCertificate';
 import GetAllCertificate from '@context/documents/application/use-cases/certificate/search/findAll/GetAllCertificate';
 import { USE_CASE_TOKENS } from '@context/documents/application/ports/in/use-case.tokens';
+import { KafkaModule } from '../../kafka/kafka.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CertificateEntity])],
+  imports: [TypeOrmModule.forFeature([CertificateEntity]), KafkaModule],
   providers: [
     {
       provide: 'CertificateRepository',
