@@ -4,6 +4,7 @@ import { ClientKafka } from '@nestjs/microservices';
 import { OrderCreatedEvent } from '@context/documents/domain/events/OrderCreated.event';
 import { DomainEvent } from '@context/documents/domain/events/domain-event.interface';
 import { v4 as uuidv4 } from 'uuid';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class OrderCreatedEventHandler implements EventHandler, OnModuleInit {
@@ -17,10 +18,21 @@ export class OrderCreatedEventHandler implements EventHandler, OnModuleInit {
     return event instanceof OrderCreatedEvent;
   }
 
-  publish(event: OrderCreatedEvent) {
-    this.kafka.emit('order-created', {
-      key: uuidv4(),
-      value: event,
-    });
+  async publish(event: OrderCreatedEvent) {
+    try {
+      await lastValueFrom(
+        this.kafka.emit(
+          'order-created',
+          JSON.stringify({
+            key: uuidv4(),
+            value: event,
+          }),
+        ),
+      );
+      console.log(`✅ Published event to topic ${'order-created'}`);
+    } catch (err) {
+      console.error(`❌ Kafka publish failed:`, err);
+      throw err;
+    }
   }
 }
