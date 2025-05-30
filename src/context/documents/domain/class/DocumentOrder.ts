@@ -64,10 +64,10 @@ export class DocumentOrder extends Document {
     }
   }
 
-  recordCreatedEvents() {
+  recordCreatedEvents(order: DocumentOrder) {
     this.addDomainEvent(new DocumentCreatedEvent('order', this));
 
-    this.addDomainEvent(new OrderCreatedEvent(this));
+    this.addDomainEvent(new OrderCreatedEvent(order));
   }
 
   public validate(): void {

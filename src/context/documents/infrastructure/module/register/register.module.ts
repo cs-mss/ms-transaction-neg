@@ -8,7 +8,7 @@ import GetRegister from '@context/documents/application/use-cases/register/searc
 import GetAllRegister from '@context/documents/application/use-cases/register/search/findAll/GetAllRegister';
 import { CertificatesModule } from '../certificate/certificate.module';
 import { USE_CASE_TOKENS } from '@context/documents/application/ports/in/use-case.tokens';
-import { KafkaModule } from '../../kafka/kafka.module';
+import { KafkaModule } from '@context/shared/infrastructure/kafka/kafka.module';
 
 @Module({
   imports: [

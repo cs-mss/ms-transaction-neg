@@ -8,7 +8,7 @@ import GetOrder from '@context/documents/application/use-cases/order/search/find
 import GetAllOrder from '@context/documents/application/use-cases/order/search/findAll/GetAllOrder';
 import { RegistersModule } from '../register/register.module';
 import { USE_CASE_TOKENS } from '@context/documents/application/ports/in/use-case.tokens';
-import { KafkaModule } from '../../kafka/kafka.module';
+import { KafkaModule } from '@context/shared/infrastructure/kafka/kafka.module';
 
 @Module({
   imports: [

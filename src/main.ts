@@ -33,10 +33,12 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        clientId: 'ms-transaction-neg',
-        brokers: ['kafka1:9092', 'kafka2:9093', 'kafka3:9094'],
+        clientId: process.env.KAFKA_CLIENT_ID,
+        brokers: (process.env.KAFKA_BROKERS as string).split(','),
       },
-      producerOnlyMode: true,
+      consumer: {
+        groupId: process.env.KAFKA_GROUP_ID || 'ms-group-neg',
+      },
     },
   };
 

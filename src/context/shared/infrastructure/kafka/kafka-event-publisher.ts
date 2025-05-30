@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { EventPublisher } from '../../domain/events/event-publisher.interface';
 import { EventHandler } from './event-handler.interface';
 import { DomainEvent } from '@context/documents/domain/events/domain-event.interface';
+import { EventPublisher } from '@context/documents/domain/events/event-publisher.interface';
 
 @Injectable()
 export class KafkaEventPublisher implements EventPublisher {

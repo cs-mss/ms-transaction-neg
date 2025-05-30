@@ -16,9 +16,9 @@ export default class CreateOrder implements ICreateOrderUseCase {
   public async run(document: DocumentOrder) {
     document.validate();
 
-    document.recordCreatedEvents();
+    const order = await this.orderRepository.create(document);
 
-    const order = this.orderRepository.create(document);
+    document.recordCreatedEvents(order);
 
     const events = document.pullDomainEvents();
     for (const event of events) {

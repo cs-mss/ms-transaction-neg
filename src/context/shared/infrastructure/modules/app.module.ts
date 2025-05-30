@@ -9,7 +9,7 @@ import { RegistersModule } from 'src/context/documents/infrastructure/module/reg
 import { DatabaseModule } from './database/database.module';
 import databaseConfig from '../config/environment/database.config';
 import { KafkaTopicsService } from '../service/kafka-topics.service';
-import { KafkaModule } from '@context/documents/infrastructure/kafka/kafka.module';
+import { KafkaModule } from '../kafka/kafka.module';
 
 @Module({
   imports: [
